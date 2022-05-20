@@ -1,17 +1,47 @@
+//! # termcol
+//!
+//! Dependency-less library for simple terminal text coloring and formating
+//!
+//! # Usage
+//!
+//! Basic usage (checkout the examples/usage.rs file for more information)
+//!
+//! ```rust
+//! use termcol::*;
+//!
+//! fn main() {
+//!     println!("{}red{}", color("red"), color("reset"));
+//!     println!("{}bold{}", format("bold"), format("reset"));
+//!     println!("{}", color_string("im blue", "blue"));
+//! }
+//! ```
+//!
+//! # LICENSE
+//!
+//! This project is distributed under MIT license.
+
 /// Helper function returning the value of DISALBE_COLORING global variable
 pub fn get_disable_coloring_state() -> bool {
     unsafe { DISABLE_COLORING }
 }
 
 /// Function providing a way to disable any form of coloring/formating
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// clean_output(true);
+/// ```
 pub fn clean_output(state: bool) {
     unsafe {
         DISABLE_COLORING = state;
     }
 }
 
-/// Helper function providing easy way of finding every occurrence of string in a string
-pub fn find_every_occurance(in_string: &str, find_me: &str) -> Vec<usize> {
+// Helper function providing easy way of finding every occurrence of string in a string
+fn find_every_occurance(in_string: &str, find_me: &str) -> Vec<usize> {
     let mut occurances: Vec<usize> = vec![];
 
     for (i, _c) in in_string.chars().enumerate() {
@@ -50,6 +80,14 @@ const INVERT: &str = "\x1b[7m";
 const STRIKE: &str = "\x1b[9m";
 
 /// Function providing a way to color your cli output
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// println!("{}im red", color("red"));
+/// ```
 pub fn color(color: &str) -> String {
     if get_disable_coloring_state() {
         return String::new();
@@ -76,6 +114,14 @@ pub fn color(color: &str) -> String {
 }
 
 /// Function providing a way to color your cli output
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// println!("{}", color_string("im blue", "blue"));
+/// ```
 pub fn color_string(str_to_color: &str, color: &str) -> String {
     if get_disable_coloring_state() {
         return str_to_color.to_string();
@@ -110,6 +156,14 @@ pub fn color_string(str_to_color: &str, color: &str) -> String {
 /// Returns true color escape codes for given u8 values
 /// background_or_foreground true => change background
 /// background_or_foreground false => change foreground
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// println!("{}test", true_color(255, 240, 32, true));
+/// ```
 pub fn true_color(red: u8, green: u8, blue: u8, background_or_foreground: bool) -> String {
     if get_disable_coloring_state() {
         return String::new();
@@ -124,6 +178,14 @@ pub fn true_color(red: u8, green: u8, blue: u8, background_or_foreground: bool) 
 }
 
 /// Returns given string altered with true color escape codes from given u8 values
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// println!("{}", true_color_string("true Color", 255, 240, 32, 20, 20, 200));
+/// ```
 pub fn true_color_string(
     str_to_color: &str,
     fg_red: u8,
@@ -145,6 +207,14 @@ pub fn true_color_string(
 /// Returns true color escape codes from given hex string
 /// background_or_foreground true => change background
 /// background_or_foreground false => change foreground
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// println!("{}test", true_color_hex("0x1414C8", true));
+/// ```
 pub fn true_color_hex(hex: &str, background_or_foreground: bool) -> String {
     if get_disable_coloring_state() || hex.len() != 8 {
         return String::new();
@@ -165,6 +235,14 @@ pub fn true_color_hex(hex: &str, background_or_foreground: bool) -> String {
 }
 
 /// Returns given string altered with true color escape codes from given hex strings
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// println!("{}", true_color_string_hex("true color", "0x1414C8", "0xfff020"));
+/// ```
 pub fn true_color_string_hex(str_to_color: &str, fg: &str, bg: &str) -> String {
     if get_disable_coloring_state() || fg.len() != 8 || bg.len() != 8 {
         return String::new();
@@ -185,6 +263,14 @@ pub fn true_color_string_hex(str_to_color: &str, fg: &str, bg: &str) -> String {
 }
 
 /// Function providing a way to format you cli output
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// println!("{}im bold", format("bold"));
+/// ```
 pub fn format(style: &str) -> String {
     if get_disable_coloring_state() {
         return String::new();
@@ -203,6 +289,14 @@ pub fn format(style: &str) -> String {
 }
 
 /// Function providing a way to format you cli output
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// println!("{}", format_string("im bold", "bold"));
+/// ```
 pub fn format_string(str_to_format: &str, style: &str) -> String {
     if get_disable_coloring_state() {
         return str_to_format.to_string();
@@ -227,6 +321,14 @@ pub fn format_string(str_to_format: &str, style: &str) -> String {
 }
 
 /// Function which optimizes given string from unneded reset control codes
+///
+/// # Examples
+///
+/// ```no_run
+/// use termcol::*;
+///
+/// let better_string = optimize(&string_to_optimize);
+/// ```
 pub fn optimize(str_to_optimize: &str) -> String {
     let mut out_string: String = str_to_optimize.to_string();
 
