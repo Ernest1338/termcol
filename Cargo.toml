@@ -1,8 +1,14 @@
 [package]
 name = "termcol"
 version = "0.1.0"
-edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+edition = "2021"
+license = "MIT"
+authors = ["Ernest1338"]
+description = "Dependencyless library for simple terminal text coloring and formating"
+repository = "https://github.com/Ernest1338/termcol"
+homepage = "https://github.com/Ernest1338/termcol"
+documentation = "https://docs.rs/termcol"
+readme = "README.md"
+keywords = ["terminal", "color", "ansi"]
 
 [dependencies]
