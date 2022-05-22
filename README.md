@@ -2,6 +2,10 @@
 
 Dependency-less library for simple terminal text coloring and formating
 
+# Features
+
+TODO
+
 # Usage
 
 Basic usage (checkout the examples/usage.rs file for more information)
